@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block navbar_item %}
+	<div class="navbar-item">
+		<div class="buttons">
+          <a href="{{ url_for('auth.login') }}" class="button">
+            Выйти
+          </a>
+			<a href="{{ url_for('profile') }}" class="button">
+				<img src="{{ url_for('static', filename='img/profile.png') }}" alt="mhb">
+			</a>
+        </div>
+	</div>
+{% endblock %}
+
+{% block main %}
+
+	<div class="hero">
+		<div class="hero-body">
+			{% block dashboard %}
+			{% endblock dashboard %}
+		</div>
+	</div>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+.is-fullwidth {
+    width: 100%;
+}
+
+
+.is-30width {
+    width: 30%;
+}
+
+.notifications {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 31;
+}

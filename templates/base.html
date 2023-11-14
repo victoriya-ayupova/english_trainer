@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='custom_styles.css') }}">
+</head>
+<body>
+	<div class="navbar is-primary">
+		<div class="container">
+			<div class="navbar-brand">
+				<div class="navbar-item">
+					<img src="{{ url_for('static', filename='img/L.png') }}" alt="logo">
+				</div>
+				<div class="navbar-item">
+					<h2 class="title is-5 is-italic">LinguaLearn</h2>
+				</div>
+			</div>
+			<div class="navbar-end">
+				{% block navbar_item %}
+				{% endblock navbar_item %}
+			</div>
+		</div>
+	</div>
+
+		<div class="container">
+			{% block main %}
+			{% endblock main %}
+		</div>
+
+	<div class="notifications">
+		{% for message in get_flashed_messages() %}
+			<div class="notification">
+				<button class="delete"></button>
+				{{ message }}
+			</div>
+		{% endfor %}
+	</div>
+	<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+                const $notification = $delete.parentNode;
+
+                $delete.addEventListener('click', () => {
+                    $notification.parentNode.removeChild($notification);
+                });
+            });
+        });
+	</script>
+</body>
+</html>

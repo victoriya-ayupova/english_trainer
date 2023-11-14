@@ -1,0 +1,16 @@
+{% extends 'auth/base.html' %}
+
+{#{% block navbar_item %}#}
+{#	<div class="navbar-item">#}
+{#		<div class="buttons">#}
+{#          <a href="{{ url_for('login') }}" class="button">#}
+{#            Войти#}
+{#          </a>#}
+{#        </div>#}
+{#	</div>#}
+{#{% endblock %}#}
+
+{% block form %}
+	{% set links = {'У меня уже есть аккаунт': url_for('auth.login')} %}
+	{{ create_form(url_for('auth.register'), form, 'Зарегистрироваться', links) }}
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'main/base.html' %}
+
+{% block dashboard %}
+	<div class="tile is-ancestor">
+		<div class="tile is-vertical is-8 is-parent">
+			<div class="tile is-child box">
+				<p>Какой-то текст</p>
+			</div>
+			<div class="buttons is-flex is-justify-content-end">
+				<div class="columns">
+
+					<div class="column is-half">
+						<button class="button box is-primary is-fullwidth">Назад</button>
+					</div>
+					<div class="column is-half">
+						<button class="button box is-primary is-fullwidth">Вперед</button>
+					</div>
+				</div>
+			</div>
+			<div class="tile is-child box">
+				<div class="container pt-3 pr-3 pl-3">
+					<div class="block">
+						<h3 class="title is-4">План на сегодня</h3>
+						<progress class="progress is-medium is-primary" value="40" max="100">
+							40%
+						</progress>
+					</div>
+					<div class="columns">
+						<div class="column is-one-third">
+							Занимаюсь _ дней
+						</div>
+						<div class="column ">
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tile is-parent">
+			<div class="tile is-child box">
+
+			</div>
+		</div>
+	</div>
+{% endblock %}

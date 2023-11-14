@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block main %}
+	<div class="hero is-fullheight-with-navbar">
+		<div class="hero-body is-justify-content-center">
+			<div class="box is-30width">
+				{% block form %}
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+
+{% macro create_form(action, form, submit_value, links) %}
+	<form action="{{ action }}" method="POST">
+		{% for field in form %}
+			<div class="field">
+				{{ field.label(class='label') }}
+				<div class="control">
+					{{ field(class='input') }}
+				</div>
+				{% if field.errors is not none %}
+					{% for error in field.errors %}
+						<p class="help is-danger">{{ error }}</p>
+					{% endfor %}
+				{% endif %}
+			</div>
+		{% endfor %}
+		<div class="field">
+			<input type="submit" class="button is-primary" value="{{ submit_value }}">
+		</div>
+	</form>
+	<div class="block is-flex is-flex-direction-column">
+		{% for name, link in links.items() %}
+			<div class="pt-3">
+				<a href="{{ link }}">{{ name }}</a>
+			</div>
+		{% endfor %}
+	</div>
+{% endmacro %}

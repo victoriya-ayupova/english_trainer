@@ -1,0 +1,21 @@
+{% extends 'auth/base.html' %}
+
+{#{% block navbar_item %}#}
+{#	<div class="navbar-item">#}
+{#		<div class="buttons">#}
+{#          <a href="{{ url_for('register') }}" class="button">#}
+{#            Регистрация#}
+{#          </a>#}
+{#        </div>#}
+{#	</div>#}
+{#{% endblock %}#}
+
+
+{% block form %}
+	{% set links = {
+			'Забыли пароль?': url_for('auth.recovery'),
+			'Регистрация': url_for('auth.register')
+		}
+	%}
+	{{ create_form(url_for("auth.login"), form, 'Войти', links) }}
+{% endblock %}
