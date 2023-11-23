@@ -5,9 +5,11 @@ from flask_login import login_user, login_required, LoginManager, current_user
 
 from auth.models import User
 from auth.views import bp as auth_bp
+from main.views import bp as main_bp
 
 app = Flask(__name__)
 app.register_blueprint(auth_bp)
+app.register_blueprint(main_bp)
 
 app.secret_key = 'asdf'
 login_manager = LoginManager()

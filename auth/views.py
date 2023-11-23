@@ -23,7 +23,6 @@ def login_post():
 
     user = User.get(User.email == form.email.data)
     login_user(user)
-    flash('Привет')
     return redirect(url_for('main'))
 
 

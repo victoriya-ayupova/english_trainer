@@ -1,13 +1,8 @@
-from peewee import Model, CharField, PostgresqlDatabase
+from peewee import CharField
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash
 
-db = PostgresqlDatabase('english_trainer', **{'port': 5433, 'user': 'postgres', 'password': 'Televizor%1996'})
-
-
-class BaseModel(Model):
-    class Meta:
-        database = db
+from db import BaseModel
 
 
 class User(BaseModel, UserMixin):
