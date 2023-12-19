@@ -23,7 +23,10 @@ def login_post():
 
     user = User.get(User.email == form.email.data)
     login_user(user)
-    return redirect(url_for('main'))
+    if request.args.get('next') is not None:
+        return redirect(request.args.get('next'))
+    else:
+        return redirect(url_for('main'))
 
 
 @bp.get('/register')

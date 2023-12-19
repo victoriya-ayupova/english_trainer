@@ -3,6 +3,7 @@ import peewee
 from collections import Counter
 
 from main.models import Sentence, Word
+from main.translator import translate
 
 nlp = spacy.load("en_core_web_sm")
 
@@ -21,7 +22,7 @@ class Extractor:
         words = []
         for token in self.doc:
             if token.is_alpha and not token.is_stop and not token.ent_type:
-                words.append(token.text)
+                words.append(token.text.lower())
         return words
 
 
@@ -43,12 +44,12 @@ def save_words(words: list, user_id: int):
                   )).execute()
 
 
-# with open('text.txt', 'r') as file:
-#     text = file.read()
-
-# ex = Extractor(text)
-# sents = ex.extract_sentences()
-# words = ex.extract_words()
-#
-# save_sentences(sents, 4)
-# save_words(words, 4)
+def transform(sent: str, word: str) -> str:
+    sent_list = []
+    text = nlp(sent)
+    for token in text:
+        sent_list.append(token.text)
+    i = sent_list.index(word)
+    sent_list[i] = f'<mstrans:dictionary translation=\"{word}\">{word}</mstrans:dictionary>'
+    sent_for_translation = ' '.join(sent_list)
+    return translate(sent_for_translation)

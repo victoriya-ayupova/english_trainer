@@ -1,0 +1,62 @@
+{% extends 'main/base.html' %}
+
+{% block add_buttons %}
+	<a href="{{ url_for('main.upload') }}" class="button">
+		Загрузить текст
+	</a>
+{% endblock %}
+
+
+{% block dashboard %}
+	<div class="tile is-ancestor">
+		<div class="tile is-vertical is-8 is-parent">
+			{% include 'main/next_sent.html' with context %}
+			<div class="tile is-child box">
+				<div class="container pt-3 pr-3 pl-3">
+					<div class="block">
+						<h3 class="title is-4">План на сегодня</h3>
+						<progress class="progress is-medium is-primary" value="40" max="100">
+							40%
+						</progress>
+					</div>
+					<div class="columns">
+						<div class="column is-one-third">
+							Занимаюсь _ дней
+						</div>
+						<div class="column ">
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tile is-parent">
+			<div class="tile is-child box tile-height table-container is-flex is-justify-content-center">
+
+				<table class="table is-hoverable">
+					<thead>
+						<tr>
+							<th>Word</th>
+							<th>Frequency</th>
+							<th>Is learned</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for word in words %}
+							<tr>
+								<td>{{ word.text }}</td>
+								<td>{{ word.frequency }}</td>
+								<td>
+									<label for="{{ url_for('main_post') }}" class="checkbox">
+										<input type="checkbox">
+									</label>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}

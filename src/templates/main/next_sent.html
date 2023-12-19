@@ -1,0 +1,29 @@
+<div id="sent">
+	<div class="tile is-child box">
+		<p>{{ sent }}</p>
+	</div>
+	<div class="buttons is-flex is-justify-content-end">
+		<div class="columns is-30width">
+			<div class="column is-half">
+				{% if n > 0 %}
+					<form action="{{ url_for('main_post') }}" method="POST">
+						<input type="number" value="{{ n - 1 }}" name="sent_number" hidden>
+						<input type="text" value="{{ word }}" name="word" hidden>
+						<input type="submit" class="button box is-primary is-fullwidth" value="Назад"
+							   name="type">
+					</form>
+				{% endif %}
+			</div>
+			<div class="column is-half">
+				{% if n < number_last_sent %}
+					<form hx-post="{{ url_for('main.next_sent') }}" hx-target="#sent" class="is-fullwidth">
+						<input type="number" value="{{ n + 1 }}" name="sent_number" hidden>
+						<input type="text" value="{{ word }}" name="word" hidden>
+						<input type="submit" class="button box is-primary is-fullwidth" value="Вперед"
+							   name="type">
+					</form>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,5 +1,5 @@
 from werkzeug.security import check_password_hash
-from wtforms import Form, StringField, EmailField, PasswordField, validators
+from wtforms import Form, StringField, EmailField, PasswordField
 
 from auth.models import User
 

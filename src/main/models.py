@@ -1,5 +1,5 @@
 from peewee import CharField, IntegerField, BooleanField, ForeignKeyField, SQL
-from db import BaseModel, db
+from db import BaseModel
 from auth.models import User
 
 
