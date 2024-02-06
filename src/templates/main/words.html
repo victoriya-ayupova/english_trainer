@@ -1,0 +1,40 @@
+<div id="words-table" class="scroll-table">
+	<form hx-post="{{ url_for('main.update_unlearned_words') }}" hx-target="#words-table">
+		<table class="table is-hoverable">
+			<thead>
+				<tr>
+					<th class="has-text-centered">Word</th>
+					<th>Frequency</th>
+					<th>Is learned</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for word in words %}
+					<tr>
+						<td class="has-text-centered">{{ word.text }}</td>
+						<td class="has-text-centered">{{ word.frequency }}</td>
+						<td class="has-text-centered">
+							<label for="word" class="checkbox">
+								<input type="checkbox" name="word" value="{{ word.id }}">
+							</label>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="3">
+						<div class="is-flex is-flex-direction-row">
+							<a hx-get="{{ url_for('main.change_list_words', name=name) }}" hx-target="#words-table"
+							   class="button is-primary mt-2 mr-2">
+								Показать {{ name }}
+							</a>
+							<input class="button is-primary mt-2 ml-2" type="submit"
+								   value="Перенести в {{ name }}">
+						</div>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</form>
+</div>

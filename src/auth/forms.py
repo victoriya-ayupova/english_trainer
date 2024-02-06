@@ -1,5 +1,6 @@
 from werkzeug.security import check_password_hash
 from wtforms import Form, StringField, EmailField, PasswordField
+from wtforms.validators import Length
 
 from auth.models import User
 
@@ -35,7 +36,7 @@ class LoginForm(Form):
 class RegisterForm(Form):
     name = StringField('Name')
     email = EmailField('Email')
-    password = PasswordField('Password')
+    password = PasswordField('Password', validators=[Length(min=8)])
 
     def validate(self, extra_validators=None) -> bool:
         if not super().validate(extra_validators):

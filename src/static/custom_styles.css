@@ -17,3 +17,7 @@
 .tile-height {
     height: 800px;
 }
+
+.scroll-table {
+    overflow: auto;
+}

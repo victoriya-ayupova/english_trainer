@@ -8,7 +8,8 @@ from auth.models import User
 from auth.views import bp as auth_bp
 from config import DevelopmentConfig, TestConfig
 from main.models import Word, Sentence
-from main.utils import transform
+from main.translator import translate
+from main.utils import transform, select_sents
 from main.views import bp as main_bp
 from db import db
 nlp = spacy.load("en_core_web_sm")
@@ -19,21 +20,20 @@ def main():
     words = list(Word
                  .select()
                  .where((Word.user == current_user.id) & (Word.is_learned == False))
-                 .order_by(Word.frequency.desc()))[:15]
-    word = words[0].text.lower()
+                 .order_by(Word.frequency.desc()))
+
     try:
-        n = int(request.args['n'])
-    except Exception:
-        n = 0
-    sents = (Sentence
-             .select()
-             .where((Sentence.user == current_user.id)
-                    & (Sentence.text.like(f'%{word}%'))))
-    number_last_sent = sents.count() - 1
-    sent = sents.limit(1).offset(n)[0]
-    sent_translated = transform(sent.text, word)
-    return render_template('main/main.html', words=words, sent=sent_translated,
-                           n=n, number_last_sent=number_last_sent, word=word)
+        word = words[0].text.lower()
+    except IndexError:
+        word = None
+    n = int(request.args.get('n', 0))
+    if word is not None:
+        ready_sent, number_last_sent = select_sents(words[0], current_user, n)
+    else:
+        ready_sent = 'У вас нет слов для изучения. Загрузите текст'
+        number_last_sent = 0
+    return render_template('main/main.html', words=words, sent=ready_sent,
+                           n=n, number_last_sent=number_last_sent, word=word, name='learned')
 
 
 @login_required
@@ -46,6 +46,16 @@ def main_post():
     else:
         new_sent_number = int(form['sent_number'])
     return redirect(url_for('main', n=new_sent_number))
+
+
+# /word/123/456
+# from urllib.parse import urljoin
+# urljoin(url_for('word'), '.../...')
+# @app.get('/word/<int:word_id>/<int:sentence_id>')
+# def word(word_id: int, sentence_id: int) -> str:
+#     words = ...
+#     sentence = ...
+#     return render_template(...)
 
 
 def error404(error):

@@ -1,6 +1,6 @@
 import peewee
 from flask import Blueprint, render_template, url_for, request, redirect, flash
-from flask_login import login_user
+from flask_login import login_user, login_required, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from .forms import LoginForm, RegisterForm, PasswordRecoveryForm
@@ -66,3 +66,9 @@ def recovery_post():
     flash('Пароль обновлен')
     return redirect(url_for('auth.login'))
 
+
+@bp.get('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('auth.login'))

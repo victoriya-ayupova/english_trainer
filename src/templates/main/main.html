@@ -1,5 +1,7 @@
 {% extends 'main/base.html' %}
 
+{% block title %}main{% endblock %}
+
 {% block add_buttons %}
 	<a href="{{ url_for('main.upload') }}" class="button">
 		Загрузить текст
@@ -8,6 +10,7 @@
 
 
 {% block dashboard %}
+	<p>{{ username }}</p>
 	<div class="tile is-ancestor">
 		<div class="tile is-vertical is-8 is-parent">
 			{% include 'main/next_sent.html' with context %}
@@ -31,31 +34,8 @@
 			</div>
 		</div>
 		<div class="tile is-parent">
-			<div class="tile is-child box tile-height table-container is-flex is-justify-content-center">
-
-				<table class="table is-hoverable">
-					<thead>
-						<tr>
-							<th>Word</th>
-							<th>Frequency</th>
-							<th>Is learned</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for word in words %}
-							<tr>
-								<td>{{ word.text }}</td>
-								<td>{{ word.frequency }}</td>
-								<td>
-									<label for="{{ url_for('main_post') }}" class="checkbox">
-										<input type="checkbox">
-									</label>
-								</td>
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-
+			<div class="tile tile-height is-child box is-flex is-justify-content-center">
+				{% include 'main/words.html' with context %}
 			</div>
 		</div>
 	</div>

@@ -29,5 +29,5 @@ class DevelopmentConfig(Config):
 class TestConfig(Config):
     TESTING = True
     DEBUG = False
-    SERVER_NAME = '127.0.0.1'
+    SERVER_NAME = os.environ.get('SERVER_NAME')
 

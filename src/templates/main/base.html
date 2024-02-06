@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+
 {% block navbar_item %}
 	<div class="navbar-item">
 		<div class="buttons">
@@ -10,7 +11,7 @@
 {#			<a href="{{ url_for('profile') }}" class="button">#}
 {#				<img src="{{ url_for('static', filename='img/profile.png') }}" alt="profile">#}
 {#			</a>#}
-			<a href="{{ url_for('auth.login') }}" class="button">
+			<a href="{{ url_for('auth.logout') }}" class="button">
 				Выйти
 			</a>
 		</div>

@@ -1,5 +1,5 @@
-<div id="sent">
-	<div class="tile is-child box">
+<div id="sent" class="tile is-child">
+	<div class="box">
 		<p>{{ sent }}</p>
 	</div>
 	<div class="buttons is-flex is-justify-content-end">
@@ -16,12 +16,15 @@
 			</div>
 			<div class="column is-half">
 				{% if n < number_last_sent %}
-					<form hx-post="{{ url_for('main.next_sent') }}" hx-target="#sent" class="is-fullwidth">
-						<input type="number" value="{{ n + 1 }}" name="sent_number" hidden>
-						<input type="text" value="{{ word }}" name="word" hidden>
-						<input type="submit" class="button box is-primary is-fullwidth" value="Вперед"
-							   name="type">
-					</form>
+					<a class="button box is-primary is-fullwidth" hx-get="{{ url_for('main.next_sent', word=word, n=n+1) }}" hx-target="#sent">
+						Вперед
+					</a>
+{#					<form hx-post="{{ url_for('main.next_sent') }}" hx-target="#sent" class="is-fullwidth">#}
+{#						<input type="number" value="{{ n + 1 }}" name="sent_number" hidden>#}
+{#						<input type="text" value="{{ word }}" name="word" hidden>#}
+{#						<input type="submit" class="button box is-primary is-fullwidth" value="Вперед"#}
+{#							   name="type">#}
+{#					</form>#}
 				{% endif %}
 			</div>
 		</div>
