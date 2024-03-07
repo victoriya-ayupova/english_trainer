@@ -1,0 +1,13 @@
+Flask==3.0.2
+Flask_Login==0.6.3
+itsdangerous==2.1.2
+peewee==3.17.0
+playwright==1.41.0
+pytest==7.4.3
+python-dotenv==1.0.1
+Requests==2.31.0
+spacy==3.7.2
+spacy_stanza==1.0.4
+stanza==1.6.1
+Werkzeug==3.0.1
+WTForms==3.1.2
