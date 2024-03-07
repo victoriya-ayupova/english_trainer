@@ -13,8 +13,6 @@ from main.translator import translate
 stanza.download('ru')
 nlp_ru = spacy_stanza.load_pipeline("ru")
 nlp_en = spacy.load("en_core_web_sm")
-# nlp_ru = spacy.load('ru2_combined_400ks_96')
-# nlp_ru = Russian()
 
 
 class Extractor:

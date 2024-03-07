@@ -3,10 +3,10 @@ import os
 import spacy
 from flask import Flask, render_template, request, redirect, url_for
 from flask_login import LoginManager, current_user, login_required
+from dotenv import dotenv_values
 
 from auth.models import User
 from auth.views import bp as auth_bp
-from config import DevelopmentConfig, TestConfig
 from main.models import Word, Sentence
 from main.translator import translate
 from main.utils import transform, select_sents
@@ -66,7 +66,7 @@ def user_load(id: str):
     return User.get_by_id(int(id))
 
 
-def create_app():
+def create_app(config_name: str):
     app = Flask(__name__)
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
@@ -74,18 +74,16 @@ def create_app():
     app.add_url_rule('/', methods=['POST'], view_func=main_post)
     app.register_error_handler(404, error404)
 
-    config_map = {
-        'development': DevelopmentConfig,
-        'test': TestConfig,
-    }
-    config = config_map[os.environ.get('FLASK_ENV', 'development')]
-    app.config.from_object(config)
+    config = dotenv_values(f'{config_name}.env')
+    if not config:
+        raise RuntimeError(f'Unable to load {config_name}.env')
+    app.config.update(config)
     db.init(
-        config.DB_NAME,
-        host=config.DB_HOST,
-        port=config.DB_PORT,
-        user=config.DB_USER,
-        password=config.DB_PASSWORD
+        app.config['DB_NAME'],
+        host=app.config['DB_HOST'],
+        port=app.config['DB_PORT'],
+        user=app.config['DB_USER'],
+        password=app.config['DB_PASSWORD'],
     )
 
     # app.secret_key = os.environ.get('FLASK_SECRET_KEY')
@@ -98,5 +96,5 @@ def create_app():
 
 
 if __name__ == '__main__':
-    app = create_app()
+    app = create_app('development')
     app.run(port=5001)

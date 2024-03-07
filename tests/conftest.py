@@ -4,10 +4,6 @@ from flask.testing import FlaskClient
 from peewee import Database
 from werkzeug.security import generate_password_hash
 
-import os
-
-os.environ['FLASK_ENV'] = 'test'
-
 from app import create_app
 from auth.models import User
 from db import db as _db
@@ -28,7 +24,7 @@ def db(app) -> Database:
 
 @pytest.fixture
 def app() -> Flask:
-    _app = create_app()
+    _app = create_app('../test')
     context = _app.app_context()
     context.push()
     return _app

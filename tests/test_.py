@@ -4,7 +4,7 @@ from flask_login import current_user
 from peewee import Database
 import pytest
 
-from src.auth.models import User
+from auth.models import User
 
 
 @pytest.mark.parametrize(['endpoint'], [

@@ -1,15 +1,7 @@
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
-
-path = Path()
-env_file_name = os.environ.get('FLASK_ENV', '')
-path /= env_file_name
-path = path.with_suffix('.env')
-if not path.exists():
-    raise FileNotFoundError(path.resolve())
-load_dotenv(path)
+from dotenv import dotenv_values
 
 
 class Config:

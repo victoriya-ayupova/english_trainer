@@ -11,7 +11,6 @@ class TextForm(Form):
         self.save_sents(user_id, ex)
         self.save_words(user_id, ex)
 
-
     def save_sents(self, user_id, ex: Extractor):
         sents = ex.extract_sentences()
         save_sentences(sents, user_id)
