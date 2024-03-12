@@ -7,8 +7,7 @@ from flask_login import current_user
 from auth.models import User
 from main.models import Sentence, Word
 from main.translator import translate
-
-nlp_en = spacy.load("en_core_web_sm")
+from utils import nlp_en
 
 
 class Extractor:

@@ -1,6 +1,6 @@
 from app import create_app
 
-if __name__ == '__main__':
-    app = create_app('../production')
+# if __name__ == '__main__':
+#     app = create_app('../production')
 
-# --bind wsgi:app
+# wsgi:app

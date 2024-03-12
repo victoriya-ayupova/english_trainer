@@ -1,8 +1,10 @@
+import logging
 import os
 
 import spacy
 from flask import Flask, render_template, request, redirect, url_for
 from flask_login import LoginManager, current_user, login_required
+from loguru import logger
 from dotenv import dotenv_values
 
 from auth.models import User
@@ -12,7 +14,8 @@ from main.translator import translate
 from main.utils import transform, select_sents
 from main.views import bp as main_bp
 from db import db
-nlp = spacy.load("en_core_web_sm")
+
+logger.add('app.log', level=logging.DEBUG)
 
 
 @login_required
@@ -68,15 +71,18 @@ def user_load(id: str):
 
 def create_app(config_name: str):
     app = Flask(__name__)
+    logger.debug('App created')
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
     app.add_url_rule('/', view_func=main)
     app.add_url_rule('/', methods=['POST'], view_func=main_post)
     app.register_error_handler(404, error404)
+    logger.debug('App configuration finished')
 
     config = dotenv_values(f'{config_name}.env')
     if not config:
         raise RuntimeError(f'Unable to load {config_name}.env')
+    logger.debug('Environment created')
     app.config.update(config)
     db.init(
         app.config['DB_NAME'],
@@ -85,12 +91,14 @@ def create_app(config_name: str):
         user=app.config['DB_USER'],
         password=app.config['DB_PASSWORD'],
     )
+    logger.debug('Database initialized')
 
     # app.secret_key = os.environ.get('FLASK_SECRET_KEY')
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.user_loader(user_load)
     login_manager.login_view = 'auth.login'
+    logger.debug('Login manager initialized')
 
     return app
 
