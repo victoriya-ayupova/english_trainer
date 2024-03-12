@@ -1,6 +1,4 @@
 import spacy
-import stanza
-import spacy_stanza
 import peewee
 from collections import Counter
 
@@ -10,8 +8,6 @@ from auth.models import User
 from main.models import Sentence, Word
 from main.translator import translate
 
-stanza.download('ru')
-nlp_ru = spacy_stanza.load_pipeline("ru")
 nlp_en = spacy.load("en_core_web_sm")
 
 
@@ -56,32 +52,27 @@ def mask(word: str) -> str:
 
 
 def transform(sent: Sentence, word_in_lerning: Word, current_user: User) -> str:
-    # learned_words = (Word
-    #                  .select()
-    #                  .where((Word.user == current_user.id) & (Word.is_learned == True))
-    #                  .order_by(Word.frequency.desc()))
-    # learned_words_text = set(learned_word.translation for learned_word in learned_words)
-    sent_ru = [token.text for token in nlp_ru(sent.translation)]
-    sent_lemma = [token.lemma_ for token in nlp_ru(sent.translation)]
+    learned_words = (Word
+                     .select()
+                     .where((Word.user == current_user.id) & (Word.is_learned == True))
+                     .order_by(Word.frequency.desc()))
+    learned_words_text = set(learned_word.text for learned_word in learned_words)
+    # sent_ru = [token.text for token in nlp_ru(sent.translation)]
+    # sent_lemma = [token.lemma_ for token in nlp_ru(sent.translation)]
     # for token in sent_ru:
     #     if token.lemma_ in learned_words_text:
     #         i = sent_ru.index(token)
     #         word_en = Word.select().where(Word.translation == token.lemma_)[0]
     #         sent_ru[i] = word_en.text
-    # sent_en = [token.text for token in nlp_en(sent.text)]
-
-    i = sent_lemma.index(word_in_lerning.translation)
-    sent_ru[i] = word_in_lerning.text
-    sent_for_translation = ' '.join(sent_ru)
-    return sent_for_translation
-    # for word in sent_as_list:
-    #     if word in learned_words_text:
-    #         i = sent_as_list.index(word)
-    #         sent_as_list[i] = mask(word)
-    # i = sent_as_list.index(word_in_lerning)
-    # sent_as_list[i] = mask(word_in_lerning)
-    # sent_for_translation = ' '.join(sent_as_list)
-    # return translate(sent_for_translation)
+    sent_as_list = [token.text for token in nlp_en(sent.text)]
+    for word in sent_as_list:
+        if word in learned_words_text:
+            i = sent_as_list.index(word)
+            sent_as_list[i] = mask(word)
+    i = sent_as_list.index(word_in_lerning.text)
+    sent_as_list[i] = mask(word_in_lerning.text)
+    sent_for_translation = ' '.join(sent_as_list)
+    return translate(sent_for_translation)
 
 
 def select_sents(word: Word, current_user: User, n: int):
